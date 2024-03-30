@@ -1,12 +1,16 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { JwtModule } from '@nestjs/jwt';
 import { SongsModule } from './songs/songs.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { Song } from './songs/song.entities';
 import { User } from './user/user.entity';
 import { Artist } from './artist/artist.entity';
+import { Playlist } from './playlist/playlist.entity';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -17,10 +21,13 @@ import { Artist } from './artist/artist.entity';
       host: 'localhost',
       username: 'postgres',
       password: 'postgres',
-      entities: [Song, User, Artist],
+      entities: [Song, User, Artist, Playlist],
       synchronize: true,
     }),
     SongsModule,
+    AuthModule,
+    UserModule,
+   
   ],
   controllers: [AppController],
   providers: [AppService],
