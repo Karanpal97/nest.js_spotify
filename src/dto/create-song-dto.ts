@@ -9,7 +9,6 @@ import {
 
 export class songDto {
   @IsString()
-  @IsNotEmpty()
   readonly title;
 
   @IsNotEmpty()

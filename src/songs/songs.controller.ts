@@ -7,9 +7,12 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { songDto } from '../dto/create-song-dto';
+import { ArtistJwtGuard } from 'src/auth/artist.jwt';
 
 @Controller('songs')
 export class SongsController {
@@ -25,7 +28,13 @@ export class SongsController {
     }
   }
   @Post()
-  post(@Body() createSongDto: songDto) {
+  @UseGuards(ArtistJwtGuard)
+  post(
+    @Body() createSongDto: songDto,
+    @Request()
+    request,
+  ) {
+    console.log(request.user, 'the user while creating');
     return this.songService.create(createSongDto);
   }
   @Get(':id')
